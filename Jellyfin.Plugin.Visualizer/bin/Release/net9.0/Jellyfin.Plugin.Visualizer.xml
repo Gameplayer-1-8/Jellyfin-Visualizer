@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jellyfin.Plugin.Visualizer</name>
+    </assembly>
+    <members>
+        <member name="T:Jellyfin.Plugin.Visualizer.Api.VisualizerController">
+            <summary>
+            Controller to serve visualizer web assets.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.Api.VisualizerController.GetVisualizerJs">
+            <summary>
+            Gets the visualizer JavaScript file.
+            </summary>
+            <returns>The JavaScript content.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.Api.VisualizerController.GetVisualizerCss">
+            <summary>
+            Gets the visualizer CSS file.
+            </summary>
+            <returns>The CSS content.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.Api.VisualizerController.GetConfig">
+            <summary>
+            Gets the current visualizer configuration.
+            </summary>
+            <returns>Configuration JSON.</returns>
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.Configuration.VisualizerMode">
+            <summary>
+            Available visualizer modes.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.VisualizerMode.Bars">
+            <summary>
+            Classic frequency spectrum bars.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.VisualizerMode.Waveform">
+            <summary>
+            Audio waveform display.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.VisualizerMode.Circular">
+            <summary>
+            Circular spectrum around album art.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.VisualizerMode.Particles">
+            <summary>
+            Reactive particle system.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme">
+            <summary>
+            Available color schemes.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme.Neon">
+            <summary>
+            Neon purple/cyan gradient.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme.Warm">
+            <summary>
+            Warm orange/red gradient.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme.Cool">
+            <summary>
+            Cool blue/green gradient.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme.Rainbow">
+            <summary>
+            Rainbow gradient.
+            </summary>
+        </member>
+        <member name="F:Jellyfin.Plugin.Visualizer.Configuration.ColorScheme.Mono">
+            <summary>
+            Monochrome white.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.Configuration.PluginConfiguration">
+            <summary>
+            Plugin configuration.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Configuration.PluginConfiguration.DefaultMode">
+            <summary>
+            Gets or sets the default visualizer mode.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Configuration.PluginConfiguration.DefaultColorScheme">
+            <summary>
+            Gets or sets the color scheme.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Configuration.PluginConfiguration.Sensitivity">
+            <summary>
+            Gets or sets the audio sensitivity (1-10).
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Configuration.PluginConfiguration.Enabled">
+            <summary>
+            Gets or sets a value indicating whether the visualizer is enabled.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.Plugin">
+            <summary>
+            The Jellyfin Music Visualizer plugin.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.Plugin.#ctor(MediaBrowser.Common.Configuration.IApplicationPaths,MediaBrowser.Model.Serialization.IXmlSerializer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.Visualizer.Plugin"/> class.
+            </summary>
+            <param name="applicationPaths">Instance of the <see cref="T:MediaBrowser.Common.Configuration.IApplicationPaths"/> interface.</param>
+            <param name="xmlSerializer">Instance of the <see cref="T:MediaBrowser.Model.Serialization.IXmlSerializer"/> interface.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Plugin.Instance">
+            <summary>
+            Gets the current plugin instance.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Plugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Plugin.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:Jellyfin.Plugin.Visualizer.Plugin.Description">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.Plugin.GetPages">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.PluginServiceRegistrator">
+            <summary>
+            Registers plugin services into the DI container.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.PluginServiceRegistrator.RegisterServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,MediaBrowser.Controller.IServerApplicationHost)">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.Visualizer.VisualizerInjector">
+            <summary>
+            Hosted service that automatically injects the visualizer script into
+            Jellyfin's index.html at startup and removes it on shutdown.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.VisualizerInjector.#ctor(MediaBrowser.Controller.IServerApplicationHost,Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.Visualizer.VisualizerInjector})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.Visualizer.VisualizerInjector"/> class.
+            </summary>
+            <param name="appHost">The server application host.</param>
+            <param name="logger">Logger instance.</param>
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.VisualizerInjector.StartAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.Visualizer.VisualizerInjector.StopAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Music Visualizer</title>
+</head>
+<body>
+    <div id="VisualizerConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <h1 style="margin-bottom: 0.25em;">Music Visualizer</h1>
+                <p style="margin-bottom: 1.5em; color: #999;">Add beautiful audio visualizations to your Jellyfin music player.</p>
+
+                <form id="VisualizerConfigForm">
+                    <div class="checkboxContainer checkboxContainer-withDescription" style="margin-bottom: 1.5em;">
+                        <label class="emby-checkbox-label">
+                            <input type="checkbox" is="emby-checkbox" id="chkEnabled" />
+                            <span>Enable Visualizer</span>
+                        </label>
+                    </div>
+
+                    <div class="selectContainer" style="margin-bottom: 1em;">
+                        <label class="selectLabel" for="selectMode">Default Visualizer Mode</label>
+                        <select is="emby-select" id="selectMode" name="selectMode" class="emby-select-withcolor emby-select">
+                            <option value="Bars">Spectrum Bars</option>
+                            <option value="Waveform">Waveform</option>
+                            <option value="Circular">Circular Spectrum</option>
+                            <option value="Particles">Particles</option>
+                        </select>
+                    </div>
+
+                    <div class="selectContainer" style="margin-bottom: 1em;">
+                        <label class="selectLabel" for="selectColorScheme">Color Scheme</label>
+                        <select is="emby-select" id="selectColorScheme" name="selectColorScheme" class="emby-select-withcolor emby-select">
+                            <option value="Neon">Neon (Purple/Cyan)</option>
+                            <option value="Warm">Warm (Orange/Red)</option>
+                            <option value="Cool">Cool (Blue/Green)</option>
+                            <option value="Rainbow">Rainbow</option>
+                            <option value="Mono">Monochrome</option>
+                        </select>
+                    </div>
+
+                    <div class="inputContainer" style="margin-bottom: 1em;">
+                        <label class="inputLabel inputLabelUnfocused" for="txtSensitivity">Sensitivity (1-10)</label>
+                        <input is="emby-input" type="number" id="txtSensitivity" min="1" max="10" step="1" />
+                    </div>
+
+                    <div style="margin-top: 1.5em;">
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 2em; padding: 1em; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <h2 style="margin-bottom: 0.5em;">ℹ️ Info</h2>
+                    <p style="color: #aaa;">The visualizer script is automatically injected into the Jellyfin web client on server startup. No manual steps required!</p>
+                    <p style="color: #888; font-size: 0.9em; margin-top: 0.5em;">A restart of Jellyfin may be required after changing settings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var VisualizerConfig = {
+            pluginUniqueId: 'c3a7b9e1-4f2d-4e8a-b6c5-1d3f5a7e9b2c'
+        };
+
+        document.querySelector('#VisualizerConfigPage')
+            .addEventListener('pageshow', function () {
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(VisualizerConfig.pluginUniqueId).then(function (config) {
+                    document.querySelector('#chkEnabled').checked = config.Enabled;
+                    document.querySelector('#selectMode').value = config.DefaultMode;
+                    document.querySelector('#selectColorScheme').value = config.DefaultColorScheme;
+                    document.querySelector('#txtSensitivity').value = config.Sensitivity;
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+
+        document.querySelector('#VisualizerConfigForm')
+            .addEventListener('submit', function (e) {
+                e.preventDefault();
+                Dashboard.showLoadingMsg();
+                ApiClient.getPluginConfiguration(VisualizerConfig.pluginUniqueId).then(function (config) {
+                    config.Enabled = document.querySelector('#chkEnabled').checked;
+                    config.DefaultMode = document.querySelector('#selectMode').value;
+                    config.DefaultColorScheme = document.querySelector('#selectColorScheme').value;
+                    config.Sensitivity = parseInt(document.querySelector('#txtSensitivity').value, 10);
+                    ApiClient.updatePluginConfiguration(VisualizerConfig.pluginUniqueId, config).then(function () {
+                        Dashboard.processPluginConfigurationUpdateResult();
+                    });
+                });
+                return false;
+            });
+    </script>
+</body>
+</html>
