@@ -1,0 +1,20 @@
+[
+    {
+        "guid": "c3a7b9e1-4f2d-4e8a-b6c5-1d3f5a7e9b2c",
+        "name": "Music Visualizer",
+        "description": "Music Visualizer adds real-time audio visualization to the Jellyfin web music player, inspired by Feishin. Features four visualization modes (Spectrum Bars, Waveform, Circular Spectrum, Particles) and five color schemes. The visualizer script is automatically injected into the web client on server startup.\n",
+        "overview": "Adds a beautiful audio visualizer to the Jellyfin music player with multiple modes.",
+        "owner": "Community",
+        "category": "General",
+        "versions": [
+            {
+                "version": "1.0.0.0",
+                "changelog": "## v1.0.0.0\n- Initial release\n- Four visualization modes: Spectrum Bars, Waveform, Circular, Particles\n- Five color schemes: Neon, Warm, Cool, Rainbow, Mono\n- Automatic script injection into Jellyfin web client\n- Configuration page in Jellyfin dashboard\n",
+                "targetAbi": "10.10.0.0",
+                "sourceUrl": "https://github.com/Gameplayer-1-8/Jellyfin-Visualizer/releases/download/v1.0.0.4/music-visualizer_1.0.0.0.zip",
+                "checksum": "234731e58301b0517ab28833cd17e3dc",
+                "timestamp": "2026-06-11T08:49:51Z"
+            }
+        ]
+    }
+]
