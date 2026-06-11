@@ -32,8 +32,10 @@ jobs:
         run: pip install jprm
 
       - name: Build Plugin
-        # jprm plugin build compiles the plugin and outputs a zip file in the root
-        run: jprm plugin build --dotnet-configuration Release .
+        # Run dotnet restore first to prevent NETSDK1064 errors during jprm's clean step
+        run: |
+          dotnet restore Jellyfin.Plugin.Visualizer.sln
+          jprm plugin build --dotnet-configuration Release .
 
       - name: Extract zip filename
         id: zip_name
