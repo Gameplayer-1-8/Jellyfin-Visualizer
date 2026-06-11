@@ -1,0 +1,47 @@
+# ====================================================================
+# .NET / C# / Visual Studio .gitignore
+# ====================================================================
+
+## Build folders
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.dll
+*.exe
+*.pdb
+
+## Node / JS (if needed later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+## Visual Studio & Rider
+.vs/
+.idea/
+*.DotSettings.user
+
+## OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+## NuGet
+packages/
+*.nupkg
+.nuget/
+
+## Mac / Linux / IDE
+.vscode/
+
+## Local configurations
+*.local
+appsettings.Development.json
+appsettings.user.json
