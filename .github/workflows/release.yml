@@ -32,23 +32,25 @@ jobs:
         run: pip install jprm
 
       - name: Build Plugin
-        # Run dotnet restore first to prevent NETSDK1064 errors during jprm's clean step
+        # Create artifacts folder because jprm expects it, and run restore
         run: |
+          mkdir -p artifacts
           dotnet restore Jellyfin.Plugin.Visualizer.sln
           jprm plugin build --dotnet-configuration Release .
 
       - name: Extract zip filename
         id: zip_name
         run: |
-          ZIP_FILE=$(ls Jellyfin.Plugin.Visualizer*.zip | head -n 1)
-          echo "file=$ZIP_FILE" >> $GITHUB_OUTPUT
+          ZIP_FILE=$(ls artifacts/*.zip | head -n 1)
+          echo "filepath=$ZIP_FILE" >> $GITHUB_OUTPUT
+          echo "filename=$(basename $ZIP_FILE)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ steps.zip_name.outputs.file }}
+          files: ${{ steps.zip_name.outputs.filepath }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -66,21 +68,20 @@ jobs:
       - name: Generate Repository Manifest
         run: |
           # Copy the zip to the gh-pages directory temporarily to calculate hashes
-          cp ${{ steps.zip_name.outputs.file }} gh-pages/
+          cp ${{ steps.zip_name.outputs.filepath }} gh-pages/
           cd gh-pages
           
           # Initialize empty repo if needed
           jprm repo init .
           
           # We construct the URL to the GitHub Release asset
-          # If not a tag push (workflow_dispatch), we just use a placeholder
-          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.zip_name.outputs.file }}"
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.zip_name.outputs.filename }}"
           
           # Add the plugin release to the manifest
-          jprm repo add -U "$DOWNLOAD_URL" ${{ steps.zip_name.outputs.file }}
+          jprm repo add -U "$DOWNLOAD_URL" ${{ steps.zip_name.outputs.filename }}
           
           # Remove the zip file from gh-pages, we only want the manifest.json
-          rm ${{ steps.zip_name.outputs.file }}
+          rm ${{ steps.zip_name.outputs.filename }}
 
       - name: Publish manifest to gh-pages
         if: startsWith(github.ref, 'refs/tags/')
