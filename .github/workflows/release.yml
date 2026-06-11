@@ -78,7 +78,7 @@ jobs:
           DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.zip_name.outputs.filename }}"
           
           # Add the plugin release to the manifest
-          jprm repo add -U "$DOWNLOAD_URL" ${{ steps.zip_name.outputs.filename }}
+          jprm repo add -U "$DOWNLOAD_URL" . ${{ steps.zip_name.outputs.filename }}
           
           # Remove the zip file from gh-pages, we only want the manifest.json
           rm ${{ steps.zip_name.outputs.filename }}
